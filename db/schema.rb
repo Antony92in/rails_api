@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 2020_11_27_094421) do
 
   create_table "books", force: :cascade do |t|
     t.string "title"
+    t.bigint "copies"
   end
 
   create_table "publishers", force: :cascade do |t|

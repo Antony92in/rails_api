@@ -24,13 +24,20 @@ class WelcomeController < ApplicationController
 
   def sold_copies
     @book = ShopBook.where("shop_id = ? AND book_id = ?", params[:shop_id], params[:book_id])[0]
-    if @book['copies_in_stock'] > 0 && @book['copies_in_stock'] >= params[:num].to_i
-     @book['copies_in_stock'] -= params[:num].to_i
-     @book['sold'] += params[:num].to_i
-     @book.save
-   end
-   
-   render json: @book
+
+    if @book
+      if @book['copies_in_stock'] > 0 && @book['copies_in_stock'] >= params[:num].to_i
+       @book['copies_in_stock'] -= params[:num].to_i
+       @book['sold'] += params[:num].to_i
+       @book.save
+       render json: @book
+     else
+      render status: 500
+     end
+     else
+      render status: 500
+    end
+
  end
 
 end
